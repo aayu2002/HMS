@@ -1,7 +1,7 @@
 package com.example.entity;
 
 /**
- * Represents a Doctor in a healthcare system.
+ * Represents a Doctor in a hospital management system.
  * The Doctor class stores information about a medical professional.
  */
 public class Doctor {
