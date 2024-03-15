@@ -1,178 +1,115 @@
-package com.example.entity;
+package com.hospital.entity;
 
-/**
- * Represents a Patient in a hospital management system.
- */
+import javax.persistence.*;
+
+@Entity
 public class Patient {
-    private int pId;            // Unique identifier for the patient
-    private String fname;       // First name of the patient
-    private String lname;       // Last name of the patient
-    private String gender;      // Gender of the patient
-    private String disease;     // Disease or condition the patient is diagnosed with
-    private boolean admitStatus; // Admission status of the patient (admitted or not)
-    private int age;            // Age of the patient
-    private String phoneNo;     // Phone number of the patient
+    @Id
+    private String p_id; // Patient ID
 
-    /**
-     * Gets the unique identifier of the patient.
-     *
-     * @return The patient's unique identifier.
-     */
-    public int getpId() {
-        return pId;
+    private String fname; // First name
+    private String lname; // Last name
+    private String gender; // Gender
+    private String disease; // Disease
+    private String admitstatus; // Admission status
+    private int age; // Age
+    private String phone_no; // Phone number
+
+    // Default constructor
+    public Patient() {
+
     }
 
-    /**
-     * Sets the unique identifier of the patient.
-     *
-     * @param pId The new unique identifier for the patient.
-     */
-    public void setpId(int pId) {
-        this.pId = pId;
+    // Parameterized constructor
+    public Patient(String p_id, String fname, String lname, String gender, String disease, String admitstatus, int age, String phone_no) {
+        this.p_id = p_id;
+        this.fname = fname;
+        this.lname = lname;
+        this.gender = gender;
+        this.disease = disease;
+        this.admitstatus = admitstatus;
+        this.age = age;
+        this.phone_no = phone_no;
     }
 
-    /**
-     * Gets the first name of the patient.
-     *
-     * @return The first name of the patient.
-     */
+    // Getters and Setters
+
+    public String getP_id() {
+        return p_id;
+    }
+
+    public void setP_id(String p_id) {
+        this.p_id = p_id;
+    }
+
     public String getFname() {
         return fname;
     }
 
-    /**
-     * Sets the first name of the patient.
-     *
-     * @param fname The new first name for the patient.
-     */
     public void setFname(String fname) {
         this.fname = fname;
     }
 
-    /**
-     * Gets the last name of the patient.
-     *
-     * @return The last name of the patient.
-     */
     public String getLname() {
         return lname;
     }
 
-    /**
-     * Sets the last name of the patient.
-     *
-     * @param lname The new last name for the patient.
-     */
     public void setLname(String lname) {
         this.lname = lname;
     }
 
-    /**
-     * Gets the gender of the patient.
-     *
-     * @return The gender of the patient.
-     */
     public String getGender() {
         return gender;
     }
 
-    /**
-     * Sets the gender of the patient.
-     *
-     * @param gender The new gender for the patient.
-     */
     public void setGender(String gender) {
         this.gender = gender;
     }
 
-    /**
-     * Gets the disease or condition the patient is diagnosed with.
-     *
-     * @return The disease or condition of the patient.
-     */
     public String getDisease() {
         return disease;
     }
 
-    /**
-     * Sets the disease or condition of the patient.
-     *
-     * @param disease The new disease or condition for the patient.
-     */
     public void setDisease(String disease) {
         this.disease = disease;
     }
 
-    /**
-     * Checks the admission status of the patient.
-     *
-     * @return True if the patient is admitted, false otherwise.
-     */
-    public boolean isAdmitStatus() {
-        return admitStatus;
+    public String getAdmitstatus() {
+        return admitstatus;
     }
 
-    /**
-     * Sets the admission status of the patient.
-     *
-     * @param admitStatus The new admission status for the patient.
-     */
-    public void setAdmitStatus(boolean admitStatus) {
-        this.admitStatus = admitStatus;
+    public void setAdmitstatus(String admitstatus) {
+        this.admitstatus = admitstatus;
     }
 
-    /**
-     * Gets the age of the patient.
-     *
-     * @return The age of the patient.
-     */
     public int getAge() {
         return age;
     }
 
-    /**
-     * Sets the age of the patient.
-     *
-     * @param age The new age for the patient.
-     */
     public void setAge(int age) {
         this.age = age;
     }
 
-    /**
-     * Gets the phone number of the patient.
-     *
-     * @return The phone number of the patient.
-     */
-    public String getPhoneNo() {
-        return phoneNo;
+    public String getPhone_no() {
+        return phone_no;
     }
 
-    /**
-     * Sets the phone number of the patient.
-     *
-     * @param phoneNo The new phone number for the patient.
-     */
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
+    public void setPhone_no(String phone_no) {
+        this.phone_no = phone_no;
     }
 
-    /**
-     * Overrides the default toString method to provide a string representation of the Patient object.
-     *
-     * @return A string representation of the Patient object.
-     */
+    // toString method to represent Patient object as a string
     @Override
     public String toString() {
         return "Patient{" +
-                "pId=" + pId +
+                "p_id='" + p_id + '\'' +
                 ", fname='" + fname + '\'' +
                 ", lname='" + lname + '\'' +
                 ", gender='" + gender + '\'' +
                 ", disease='" + disease + '\'' +
-                ", admitStatus=" + admitStatus +
+                ", admitstatus='" + admitstatus + '\'' +
                 ", age=" + age +
-                ", phoneNo='" + phoneNo + '\'' +
+                ", phone_no='" + phone_no + '\'' +
                 '}';
     }
 }
