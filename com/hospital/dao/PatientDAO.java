@@ -1,4 +1,5 @@
 package com.hospital.dao;
+
 import com.hospital.entity.Patient;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,12 +10,14 @@ public class PatientDAO {
     private SessionFactory sessionFactory;
 
     public PatientDAO() {
+        // Initialize Hibernate session factory
         sessionFactory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Patient.class)
                 .buildSessionFactory();
     }
 
+    // Method to add a new patient record
     public void addPatient(Patient patient) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
@@ -24,15 +27,18 @@ public class PatientDAO {
             session.save(patient);
             transaction.commit();
         } catch (Exception e) {
+            // Rollback transaction in case of exception
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
         } finally {
+            // Close session
             session.close();
         }
     }
 
+    // Method to update an existing patient record
     public void updatePatient(Patient patient) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
@@ -42,15 +48,18 @@ public class PatientDAO {
             session.update(patient);
             transaction.commit();
         } catch (Exception e) {
+            // Rollback transaction in case of exception
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
         } finally {
+            // Close session
             session.close();
         }
     }
 
+    // Method to delete a patient record by ID
     public void deletePatient(String patientId) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
@@ -63,15 +72,18 @@ public class PatientDAO {
             }
             transaction.commit();
         } catch (Exception e) {
+            // Rollback transaction in case of exception
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
         } finally {
+            // Close session
             session.close();
         }
     }
 
+    // Method to get a patient record by ID
     public Patient getPatientById(String patientId) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
@@ -82,11 +94,13 @@ public class PatientDAO {
             patient = session.get(Patient.class, patientId);
             transaction.commit();
         } catch (Exception e) {
+            // Rollback transaction in case of exception
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
         } finally {
+            // Close session
             session.close();
         }
 
