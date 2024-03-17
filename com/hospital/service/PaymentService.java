@@ -5,6 +5,7 @@ import com.hospital.dao.BillDAO;
 import com.hospital.entity.Payment;
 import com.hospital.entity.Bill;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class PaymentService {
@@ -28,7 +29,7 @@ public class PaymentService {
 
         // If bill exists, create a new payment and add it
         if (bill != null) {
-            Payment payment = new Payment(paymentId, billId, paymentMethod, amount);
+            Payment payment = new Payment(paymentId, paymentMethod, amount);
             paymentDao.addPayment(payment);
         } else {
             System.out.println("Bill not found.");
@@ -45,15 +46,18 @@ public class PaymentService {
         if (payment != null) {
             System.out.print("Enter new payment method: ");
             String paymentMethod = scanner.next();
-            System.out.print("Enter new amount: ");
             double amount = scanner.nextDouble();
+            System.out.print("Amount  paid ");
+
 
             payment.setPaymentMethod(paymentMethod);
             payment.setAmount(amount);
 
             paymentDao.updatePayment(payment);
+            System.out.println("---------------------------");
         } else {
             System.out.println("Payment not found.");
+            System.out.println("---------------------------");
         }
     }
 
@@ -78,5 +82,17 @@ public class PaymentService {
             System.out.println("Payment not found.");
             System.out.println("---------------------------");
         }
+    }
+    public static void getAllPayments() {
+        List<Payment> payments = paymentDao.getAllPayments();
+        if (payments.isEmpty()) {
+            System.out.println("No payments found.");
+        } else {
+            System.out.println("All Payment Details:");
+            for (Payment payment : payments) {
+                System.out.println(payment);
+            }
+        }
+        System.out.println("---------------------------");
     }
 }
