@@ -3,6 +3,7 @@ package com.hospital.service;
 import com.hospital.dao.StaffDAO;
 import com.hospital.entity.Staff;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class StaffService {
@@ -63,8 +64,10 @@ public class StaffService {
 
             // Update staff member using StaffDAO
             staffDao.updateStaff(staff);
+            System.out.println("---------------------------");
         } else {
             System.out.println("Staff not found.");
+            System.out.println("---------------------------");
         }
     }
 
@@ -73,6 +76,7 @@ public class StaffService {
         System.out.print("Enter staff ID to delete: ");
         String staffId = scanner.next();
         staffDao.deleteStaff(staffId);
+        System.out.println("---------------------------");
     }
 
     // Method to view staff member details
@@ -80,12 +84,26 @@ public class StaffService {
         System.out.print("Enter staff ID to view details: ");
         String staffId = scanner.next();
         Staff staff = staffDao.getStaffById(staffId);
+        System.out.println("---------------------------");
 
         // If staff member found, display details
         if (staff != null) {
             System.out.println(staff);
         } else {
             System.out.println("Staff not found.");
+            System.out.println("---------------------------");
         }
+    }
+    public static void getAllStaffs() {
+        List<Staff> staff = staffDao.getAllStaffs();
+        if (staff.isEmpty()) {
+            System.out.println("No staff found.");
+        } else {
+            System.out.println("All Staff Details:");
+            for (Staff s : staff) {
+                System.out.println(s);
+            }
+        }
+        System.out.println("---------------------------");
     }
 }
