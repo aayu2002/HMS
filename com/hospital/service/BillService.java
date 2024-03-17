@@ -5,17 +5,20 @@ import com.hospital.dao.PatientDAO;
 import com.hospital.entity.Bill;
 import com.hospital.entity.Patient;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class BillService {
 
-    private static BillDAO billDao = new BillDAO();
-    private static PatientDAO patientDao = new PatientDAO();
+    private static final BillDAO billDao = new BillDAO();
+    private static final PatientDAO patientDao = new PatientDAO();
 
     // Method to add a new bill
     public static void addBill(Scanner scanner) {
         System.out.print("Enter bill ID: ");
         String billId = scanner.next();
+        System.out.print("Enter patient ID: ");
+        String patientId = scanner.next();
         System.out.print("Enter basic charges: ");
         double basicCharges = scanner.nextDouble();
         System.out.print("Enter additional charges: ");
@@ -26,18 +29,17 @@ public class BillService {
         double roomCharges = scanner.nextDouble();
         System.out.print("Enter doctor fees: ");
         double doctorFees = scanner.nextDouble();
-        System.out.print("Enter total charges: ");
-        double totalCharges = scanner.nextDouble();
-        System.out.print("Enter patient ID: ");
-        String patientId = scanner.next();
+        double totalCharges = basicCharges + additionalCharges + medicationCharges + roomCharges + doctorFees;
+        System.out.println("Total Charges: " + totalCharges);
 
         // Retrieve patient information
         Patient patient = patientDao.getPatientById(patientId);
 
         // If patient exists, create a new bill and add it
         if (patient != null) {
-            Bill bill = new Bill(billId, basicCharges, additionalCharges, medicationCharges, roomCharges, doctorFees, totalCharges, patientId);
+            Bill bill = new Bill(billId, basicCharges, additionalCharges, medicationCharges, roomCharges, doctorFees, totalCharges);
             billDao.addBill(bill);
+            System.out.println("Bill added successfully.");
         } else {
             System.out.println("Patient not found.");
         }
@@ -61,8 +63,8 @@ public class BillService {
             double roomCharges = scanner.nextDouble();
             System.out.print("Enter new doctor fees: ");
             double doctorFees = scanner.nextDouble();
-            System.out.print("Enter new total charges: ");
-            double totalCharges = scanner.nextDouble();
+            double newTotalCharges = basicCharges + additionalCharges + medicationCharges + roomCharges + doctorFees;
+            System.out.println("New Total Charges: " + newTotalCharges);
 
             // Update bill details
             bill.setBasicCharges(basicCharges);
@@ -70,9 +72,9 @@ public class BillService {
             bill.setMedicationCharges(medicationCharges);
             bill.setRoomCharges(roomCharges);
             bill.setDoctorFees(doctorFees);
-            bill.setTotalCharges(totalCharges);
-
+            bill.setTotalCharges(newTotalCharges);
             billDao.updateBill(bill);
+            System.out.println("Bill updated successfully.");
         } else {
             System.out.println("Bill not found.");
         }
@@ -83,6 +85,7 @@ public class BillService {
         System.out.print("Enter bill ID to delete: ");
         String billId = scanner.next();
         billDao.deleteBill(billId);
+        System.out.println("Bill deleted successfully.");
     }
 
     // Method to view bill details
@@ -96,6 +99,19 @@ public class BillService {
             System.out.println(bill);
         } else {
             System.out.println("Bill not found.");
+        }
+    }
+
+    // Method to get all bills
+    public static void getAllBills() {
+        List<Bill> bills = billDao.getAllBills();
+        if (bills.isEmpty()) {
+            System.out.println("No bills found.");
+        } else {
+            System.out.println("All Bill Details:");
+            for (Bill bill : bills) {
+                System.out.println(bill);
+            }
         }
     }
 }
