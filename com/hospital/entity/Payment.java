@@ -1,29 +1,33 @@
 package com.hospital.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Payment {
     @Id
-    private String paymentId; // Payment ID
+    @Column(name = "paymentId")
+    private String paymentId;
 
-    private String billId; // Bill ID
-    private String paymentMethod; // Payment method
-    private double amount; // Amount
+    private String paymentMethod;
+    private double amount;
 
-    // Default constructor
-    public Payment() {}
+    @ManyToOne
+    @JoinColumn(name = "billId")
+    private Bill bill;
 
-    // Parameterized constructor
-    public Payment(String paymentId, String billId, String paymentMethod, double amount) {
+    // Constructors, Getters, and Setters
+
+    public Payment() {
+    }
+
+    public Payment(String paymentId, String paymentMethod, double amount) {
         this.paymentId = paymentId;
-        this.billId = billId;
         this.paymentMethod = paymentMethod;
         this.amount = amount;
     }
 
-    // Getters and Setters
+    // Getters and Setters (omitted for brevity)
+
 
     public String getPaymentId() {
         return paymentId;
@@ -31,14 +35,6 @@ public class Payment {
 
     public void setPaymentId(String paymentId) {
         this.paymentId = paymentId;
-    }
-
-    public String getBillId() {
-        return billId;
-    }
-
-    public void setBillId(String billId) {
-        this.billId = billId;
     }
 
     public String getPaymentMethod() {
@@ -57,12 +53,18 @@ public class Payment {
         this.amount = amount;
     }
 
-    // toString method to represent Payment object as a string
+    public Bill getBill() {
+        return bill;
+    }
+
+    public void setBill(Bill bill) {
+        this.bill = bill;
+    }
+
     @Override
     public String toString() {
         return "Payment{" +
                 "paymentId='" + paymentId + '\'' +
-                ", billId='" + billId + '\'' +
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", amount=" + amount +
                 '}';
