@@ -1,45 +1,50 @@
 package com.hospital.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Doctor {
     @Id
-    private String d_id; // Doctor ID
+    @Column(name = "d_id")
+    private String doctorId;
 
-    private String d_name; // Doctor name
-    private String qualification; // Qualification
-    private String specialization; // Specialization
-    private String availability; // Availability
+    @Column(name = "d_name")
+    private String doctorName;
 
-    // Default constructor
-    public Doctor() {}
+    private String qualification;
+    private String specialization;
+    private String availability;
 
-    // Parameterized constructor
-    public Doctor(String d_id, String d_name, String qualification, String specialization, String availability) {
-        this.d_id = d_id;
-        this.d_name = d_name;
-        this.qualification = qualification;
-        this.specialization = specialization;
-        this.availability = availability;
+    @ManyToMany(mappedBy = "doctors")
+    private Set<Patient> patients = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "doctor_staff",
+            joinColumns = @JoinColumn(name = "doctor_id"),
+            inverseJoinColumns = @JoinColumn(name = "staff_id")
+    )
+    private Set<Staff> staffMembers = new HashSet<>();
+
+    // Constructors, Getters, and Setters
+
+
+    public String getDoctorId() {
+        return doctorId;
     }
 
-    // Getters and Setters
-
-    public String getD_id() {
-        return d_id;
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
-    public void setD_id(String d_id) {
-        this.d_id = d_id;
+    public String getDoctorName() {
+        return doctorName;
     }
 
-    public String getD_name() {
-        return d_name;
-    }
-
-    public void setD_name(String d_name) {
-        this.d_name = d_name;
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
     }
 
     public String getQualification() {
@@ -66,12 +71,40 @@ public class Doctor {
         this.availability = availability;
     }
 
-    // toString method to represent Doctor object as a string
+    public Set<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(Set<Patient> patients) {
+        this.patients = patients;
+    }
+
+    public Set<Staff> getStaffMembers() {
+        return staffMembers;
+    }
+
+    public void setStaffMembers(Set<Staff> staffMembers) {
+        this.staffMembers = staffMembers;
+    }
+
+    public Doctor() {
+    }
+
+    public Doctor(String doctorId, String doctorName, String qualification, String specialization, String availability) {
+        this.doctorId = doctorId;
+        this.doctorName = doctorName;
+        this.qualification = qualification;
+        this.specialization = specialization;
+        this.availability = availability;
+    }
+
+    // Getters and Setters (omitted for brevity)
+
     @Override
     public String toString() {
         return "Doctor{" +
-                "d_id='" + d_id + '\'' +
-                ", d_name='" + d_name + '\'' +
+                "doctorId='" + doctorId + '\'' +
+                ", doctorName='" + doctorName + '\'' +
                 ", qualification='" + qualification + '\'' +
                 ", specialization='" + specialization + '\'' +
                 ", availability='" + availability + '\'' +
