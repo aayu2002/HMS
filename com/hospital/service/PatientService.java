@@ -3,15 +3,15 @@ package com.hospital.service;
 import com.hospital.dao.PatientDAO;
 import com.hospital.entity.Patient;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class PatientService {
-    // PatientDAO instance for interacting with the data layer
-    private static PatientDAO patientDao = new PatientDAO();
+
+    private static  PatientDAO patientDao = new PatientDAO();
 
     // Method to add a new patient
     public static void addPatient(Scanner scanner) {
-        // Input patient details
         System.out.print("Enter patient ID: ");
         String patientId = scanner.next();
         System.out.print("Enter patient first name: ");
@@ -23,15 +23,15 @@ public class PatientService {
         System.out.print("Enter patient disease: ");
         String disease = scanner.next();
         System.out.print("Enter patient admit status: ");
-        String admitstatus = scanner.next();
+        String admitStatus = scanner.next();
         System.out.print("Enter patient age: ");
         int age = scanner.nextInt();
         System.out.print("Enter patient phone number: ");
-        String phone_no = scanner.next();
+        String phoneNo = scanner.next();
 
         // Create patient object
-        Patient patient = new Patient(patientId, fname, lname, gender, disease, admitstatus, age, phone_no);
-        
+        Patient patient = new Patient(patientId, fname, lname, gender, disease, admitStatus, age, phoneNo);
+
         // Add patient using DAO
         patientDao.addPatient(patient);
     }
@@ -53,25 +53,27 @@ public class PatientService {
             System.out.print("Enter new patient disease: ");
             String disease = scanner.next();
             System.out.print("Enter new patient admit status: ");
-            String admitstatus = scanner.next();
+            String admitStatus = scanner.next();
             System.out.print("Enter new patient age: ");
             int age = scanner.nextInt();
             System.out.print("Enter new patient phone number: ");
-            String phone_no = scanner.next();
+            String phoneNo = scanner.next();
 
             // Update patient details
-            patient.setFname(fname);
-            patient.setLname(lname);
+            patient.setFirstName(fname);
+            patient.setLastName(lname);
             patient.setGender(gender);
             patient.setDisease(disease);
-            patient.setAdmitstatus(admitstatus);
+            patient.setAdmitStatus(admitStatus);
             patient.setAge(age);
-            patient.setPhone_no(phone_no);
+            patient.setPhoneNumber(phoneNo);
 
             // Update patient using DAO
             patientDao.updatePatient(patient);
+            System.out.println("---------------------------");
         } else {
             System.out.println("Patient not found.");
+            System.out.println("---------------------------");
         }
     }
 
@@ -80,6 +82,7 @@ public class PatientService {
         System.out.print("Enter patient ID to delete: ");
         String patientId = scanner.next();
         patientDao.deletePatient(patientId);
+        System.out.println("---------------------------");
     }
 
     // Method to view patient details
@@ -93,6 +96,22 @@ public class PatientService {
             System.out.println(patient);
         } else {
             System.out.println("Patient not found.");
+            System.out.println("---------------------------");
         }
+
+    }
+
+    // Method to get all patients
+    public static void getAllPatients() {
+        List<Patient> patients = patientDao.getAllPatients();
+        if (patients.isEmpty()) {
+            System.out.println("No patients found.");
+        } else {
+            System.out.println("Patient Details:");
+            for (Patient patient : patients) {
+                System.out.println(patient);
+            }
+        }
+        System.out.println("---------------------------");
     }
 }
