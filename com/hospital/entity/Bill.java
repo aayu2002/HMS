@@ -1,26 +1,36 @@
 package com.hospital.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Bill {
     @Id
-    private String billId; // Bill ID
+    @Column(name = "billId")
+    private String billId;
 
-    private double basicCharges; // Basic charges
-    private double additionalCharges; // Additional charges
-    private double medicationCharges; // Medication charges
-    private double roomCharges; // Room charges
-    private double doctorFees; // Doctor fees
-    private double totalCharges; // Total charges
-    private String patientId; // Patient ID
+    private double basicCharges;
+    private double additionalCharges;
+    private double medicationCharges;
+    private double roomCharges;
+    private double doctorFees;
+    private double totalCharges;
 
-    // Default constructor
-    public Bill() {}
 
-    // Parameterized constructor
-    public Bill(String billId, double basicCharges, double additionalCharges, double medicationCharges, double roomCharges, double doctorFees, double totalCharges, String patientId) {
+    @OneToOne
+    @JoinColumn(name = "staff_id")
+    private Staff staff;
+
+    @OneToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
+
+
+    // Constructors, Getters, and Setters
+
+    public Bill() {
+    }
+
+    public Bill(String billId, double basicCharges, double additionalCharges, double medicationCharges, double roomCharges, double doctorFees, double totalCharges) {
         this.billId = billId;
         this.basicCharges = basicCharges;
         this.additionalCharges = additionalCharges;
@@ -28,10 +38,7 @@ public class Bill {
         this.roomCharges = roomCharges;
         this.doctorFees = doctorFees;
         this.totalCharges = totalCharges;
-        this.patientId = patientId;
     }
-
-    // Getters and Setters
 
     public String getBillId() {
         return billId;
@@ -89,15 +96,23 @@ public class Bill {
         this.totalCharges = totalCharges;
     }
 
-    public String getPatientId() {
-        return patientId;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setPatientId(String patientId) {
-        this.patientId = patientId;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
-    // toString method to represent Bill object as a string
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+// Getters and Setters (omitted for brevity)
+
     @Override
     public String toString() {
         return "Bill{" +
@@ -108,7 +123,6 @@ public class Bill {
                 ", roomCharges=" + roomCharges +
                 ", doctorFees=" + doctorFees +
                 ", totalCharges=" + totalCharges +
-                ", patientId='" + patientId + '\'' +
                 '}';
     }
 }
