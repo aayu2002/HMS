@@ -2,7 +2,7 @@ package com.hospital.service;
 
 import com.hospital.dao.DoctorDAO;
 import com.hospital.entity.Doctor;
-
+import java.util.List;
 import java.util.Scanner;
 
 public class DoctorService {
@@ -33,6 +33,7 @@ public class DoctorService {
         System.out.print("Enter doctor ID to update: ");
         String doctorId = scanner.next();
         Doctor doctor = doctorDao.getDoctorById(doctorId);
+        System.out.println("---------------------------");
 
         // If doctor found, update details
         if (doctor != null) {
@@ -46,13 +47,14 @@ public class DoctorService {
             String availability = scanner.next();
 
             // Update doctor details
-            doctor.setD_name(dname);
+            doctor.setDoctorName(dname);
             doctor.setQualification(qualification);
-            doctor.setSpecilization(specialization);
+            doctor.setSpecialization(specialization);
             doctor.setAvailability(availability);
 
             // Update doctor using DoctorDAO
             doctorDao.updateDoctor(doctor);
+            System.out.println("---------------------------");
         } else {
             System.out.println("Doctor not found.");
         }
@@ -63,6 +65,7 @@ public class DoctorService {
         System.out.print("Enter doctor ID to delete: ");
         String doctorId = scanner.next();
         doctorDao.deleteDoctor(doctorId);
+        System.out.println("---------------------------");
     }
 
     // Method to view doctor details
@@ -77,5 +80,19 @@ public class DoctorService {
         } else {
             System.out.println("Doctor not found.");
         }
+    }
+
+    // Method to get all doctors
+    public static void getAllDoctors() {
+        List<Doctor> doctors = doctorDao.getAllDoctors();
+        if (doctors.isEmpty()) {
+            System.out.println("No doctors found.");
+        } else {
+            System.out.println("Doctor Details:");
+            for (Doctor doctor : doctors) {
+                System.out.println(doctor);
+            }
+        }
+        System.out.println("---------------------------");
     }
 }
