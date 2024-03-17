@@ -1,61 +1,95 @@
 package com.hospital.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Patient {
     @Id
-    private String p_id; // Patient ID
+    @Column(name = "p_id")
+    private String patientId;
 
-    private String fname; // First name
-    private String lname; // Last name
-    private String gender; // Gender
-    private String disease; // Disease
-    private String admitstatus; // Admission status
-    private int age; // Age
-    private String phone_no; // Phone number
+    @Column(name = "fname")
+    private String firstName;
 
-    // Default constructor
+    @Column(name = "lname")
+    private String lastName;
+
+    @Column(name = "gender")
+    private String gender;
+
+    @Column(name = "disease")
+    private String disease;
+
+    @Column(name = "admitstatus")
+    private String admitStatus;
+
+    @Column(name = "age")
+    private int age;
+
+    @Column(name = "phone_no")
+    private String phoneNumber;
+
+    @OneToOne(mappedBy = "patient")
+    private Bill bill;
+    @OneToMany
+    private List<Payment> payments;
+
+    @ManyToMany
+    @JoinTable(
+            name = "doctor_patient",
+            joinColumns = @JoinColumn(name = "patient_id"),
+            inverseJoinColumns = @JoinColumn(name = "doctor_id")
+    )
+    private Set<Doctor> doctors = new HashSet<>();
+
+    @ManyToMany(mappedBy = "patients")
+    private Set<Staff> staffMembers = new HashSet<>();
+
+    // Constructors, Getters, and Setters
+
     public Patient() {
-
     }
 
-    // Parameterized constructor
-    public Patient(String p_id, String fname, String lname, String gender, String disease, String admitstatus, int age, String phone_no) {
-        this.p_id = p_id;
-        this.fname = fname;
-        this.lname = lname;
+    public Patient(String patientId, String firstName, String lastName, String gender, String disease, String admitStatus, int age, String phoneNumber) {
+        this.patientId = patientId;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.gender = gender;
         this.disease = disease;
-        this.admitstatus = admitstatus;
+        this.admitStatus = admitStatus;
         this.age = age;
-        this.phone_no = phone_no;
+        this.phoneNumber = phoneNumber;
     }
 
-    // Getters and Setters
 
-    public String getP_id() {
-        return p_id;
+    // Getters and Setters (omitted for brevity)
+
+
+    public String getPatientId() {
+        return patientId;
     }
 
-    public void setP_id(String p_id) {
-        this.p_id = p_id;
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
     }
 
-    public String getFname() {
-        return fname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLname() {
-        return lname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLname(String lname) {
-        this.lname = lname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getGender() {
@@ -74,12 +108,12 @@ public class Patient {
         this.disease = disease;
     }
 
-    public String getAdmitstatus() {
-        return admitstatus;
+    public String getAdmitStatus() {
+        return admitStatus;
     }
 
-    public void setAdmitstatus(String admitstatus) {
-        this.admitstatus = admitstatus;
+    public void setAdmitStatus(String admitStatus) {
+        this.admitStatus = admitStatus;
     }
 
     public int getAge() {
@@ -90,26 +124,57 @@ public class Patient {
         this.age = age;
     }
 
-    public String getPhone_no() {
-        return phone_no;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_no(String phone_no) {
-        this.phone_no = phone_no;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    // toString method to represent Patient object as a string
+    public Bill getBill() {
+        return bill;
+    }
+
+    public void setBill(Bill bill) {
+        this.bill = bill;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
+    public Set<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(Set<Doctor> doctors) {
+        this.doctors = doctors;
+    }
+
+    public Set<Staff> getStaffMembers() {
+        return staffMembers;
+    }
+
+    public void setStaffMembers(Set<Staff> staffMembers) {
+        this.staffMembers = staffMembers;
+    }
+
     @Override
     public String toString() {
         return "Patient{" +
-                "p_id='" + p_id + '\'' +
-                ", fname='" + fname + '\'' +
-                ", lname='" + lname + '\'' +
+                "patientId='" + patientId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", gender='" + gender + '\'' +
                 ", disease='" + disease + '\'' +
-                ", admitstatus='" + admitstatus + '\'' +
+                ", admitStatus='" + admitStatus + '\'' +
                 ", age=" + age +
-                ", phone_no='" + phone_no + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
 }
