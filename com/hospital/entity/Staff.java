@@ -1,23 +1,32 @@
 package com.hospital.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Staff {
     @Id
-    private String staffId; // Staff ID
+    @Column(name = "staffId")
+    private String staffId;
 
-    private String firstName; // First name
-    private String lastName; // Last name
-    private String gender; // Gender
-    private String designation; // Designation
-    private int age; // Age
-    private double salary; // Salary
+    private String firstName;
+    private String lastName;
+    private String gender;
+    private String designation;
+    private int age;
+    private double salary;
 
-    // Default constructor
-    public Staff() {}
+    @ManyToMany
+    private Set<Patient> patients;
 
-    // Parameterized constructor
+    @ManyToMany(mappedBy = "staffMembers")
+    private Set<Doctor> doctors;
+
+    // Constructors, Getters, and Setters
+
+    public Staff() {
+    }
+
     public Staff(String staffId, String firstName, String lastName, String gender, String designation, int age, double salary) {
         this.staffId = staffId;
         this.firstName = firstName;
@@ -29,6 +38,7 @@ public class Staff {
     }
 
     // Getters and Setters
+
 
     public String getStaffId() {
         return staffId;
@@ -86,7 +96,22 @@ public class Staff {
         this.salary = salary;
     }
 
-    // toString method to represent Staff object as a string
+    public Set<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(Set<Patient> patients) {
+        this.patients = patients;
+    }
+
+    public Set<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(Set<Doctor> doctors) {
+        this.doctors = doctors;
+    }
+
     @Override
     public String toString() {
         return "Staff{" +
