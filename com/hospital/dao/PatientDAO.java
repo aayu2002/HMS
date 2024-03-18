@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.List;
+
 public class PatientDAO {
     private SessionFactory sessionFactory;
 
@@ -105,5 +107,28 @@ public class PatientDAO {
         }
 
         return patient;
+    }
+
+    public List<Patient> getAllPatients() {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Patient> patients = null;
+
+        try {
+            transaction = session.beginTransaction();
+            patients = session.createQuery("FROM Patient", Patient.class).getResultList();
+            transaction.commit();
+        } catch (Exception e) {
+            // Rollback transaction in case of exception
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            // Close session
+            session.close();
+        }
+
+        return patients;
     }
 }
