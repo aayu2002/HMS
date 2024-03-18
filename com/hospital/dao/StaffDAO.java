@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.List;
+
 public class StaffDAO {
     private SessionFactory sessionFactory;
 
@@ -92,6 +94,28 @@ public class StaffDAO {
         try {
             transaction = session.beginTransaction();
             staff = session.get(Staff.class, staffId);
+            transaction.commit();
+        } catch (Exception e) {
+            // Rollback transaction in case of exception
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            // Close session
+            session.close();
+        }
+
+        return staff;
+    }
+    public List<Staff> getAllStaffs() {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Staff> staff = null;
+
+        try {
+            transaction = session.beginTransaction();
+            staff = session.createQuery("FROM Staff", Staff.class).getResultList();
             transaction.commit();
         } catch (Exception e) {
             // Rollback transaction in case of exception
